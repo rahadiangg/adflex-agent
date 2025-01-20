@@ -1,0 +1,37 @@
+{
+    "title": "Pemprov Jogja",
+    "bus_schedule": [
+        {
+            "id": "SMT-GG01",
+            "arrival_time": "2025-01-20T15:04:05+07:00",
+            "route": "1A",
+            "direction": "PIK"
+        },
+        {
+            "id": "SMT-GG02",
+            "arrival_time": "2025-01-20T23:01:05+07:00",
+            "route": "2A",
+            "direction": "Pluit"
+        },
+        {
+            "id": "SMT-GG01",
+            "arrival_time": "2025-01-20T23:08:08+07:00",
+            "route": "1A",
+            "direction": "PIK"
+        }
+    ],
+    "ads": [
+        {
+            "type": "banner",
+            "source": "https://r2-demo-smart-ui.madebydian.com/alamak.jpg",
+            "checksum": "49dbc459ce37351c9c81823b079feec5",
+            "duration": 10
+        },
+        {
+            "type": "banner",
+            "source": "aaar2-demo-smart-ui.madebydian.com/alamak.jpgaa",
+            "checksum": "asdasdadasdsd",
+            "duration": 5
+        }
+    ]
+}
