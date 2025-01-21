@@ -1,52 +1,77 @@
-import type { BusSchedule } from "@/app/types/BusSchedule"
+"use client"
 
-interface BusScheduleTableProps {
-  schedule: BusSchedule[]
-}
+import { getBusSchedule } from "@/app/apis/BusSchedule"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import { AlarmClockCheck, CheckCircleIcon, ClockArrowDown, ClockArrowUp } from "lucide-react"
+import React, { ReactElement } from "react"
 
-function getArrivalStatus(arrivalTime: string): string {
+function getArrivalStatus(arrivalTime: string): ReactElement {
   const now = new Date()
   const arrival = new Date(arrivalTime)
   const diffInMinutes = Math.round((arrival.getTime() - now.getTime()) / 60000)
 
   if (diffInMinutes < 0) {
-    return "Arrived"
+    return (<div className="flex gap-4 items-center">
+      <CheckCircleIcon size={24} />
+      <span>Arrived</span>
+    </div>)
   } else if (diffInMinutes === 0) {
-    return "Arriving now"
+    return (<div className="flex gap-4 items-center">
+      <AlarmClockCheck size={24} />
+      <span>Arriving now</span>
+    </div>)
   } else if (diffInMinutes < 60) {
-    return `${diffInMinutes} minute${diffInMinutes !== 1 ? "s" : ""}`
+    const text = `${diffInMinutes} minute${diffInMinutes !== 1 ? "s" : ""}`
+    return (<div className="flex gap-4 items-center">
+      <ClockArrowDown size={24} />
+      <span>{text}</span>
+    </div>)
   } else {
     const hours = Math.floor(diffInMinutes / 60)
     const minutes = diffInMinutes % 60
-    return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${minutes !== 1 ? "s" : ""}`
+    const text = `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${minutes !== 1 ? "s" : ""}`
+    return (<div className="flex gap-4 items-center">
+      <ClockArrowUp size={24} />
+      <span>{text}</span>
+    </div>)
   }
 }
 
-export default function BusScheduleTable({ schedule }: BusScheduleTableProps) {
+export default function BusScheduleTable() {
+  const { data, isError } = useQuery({
+    queryFn: getBusSchedule,
+    placeholderData: keepPreviousData,
+    queryKey: ["busSchedule"],
+    retry: 1,
+    refetchInterval: 60000,
+    refetchIntervalInBackground: true
+  });
+
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="px-4 py-2 text-left text-gray-700">Bus ID</th>
-            <th className="px-4 py-2 text-left text-gray-700">Route</th>
-            <th className="px-4 py-2 text-left text-gray-700">Direction</th>
-            <th className="px-4 py-2 text-left text-gray-700">Arrival Time</th>
-            <th className="px-4 py-2 text-left text-gray-700">ETA</th>
-          </tr>
-        </thead>
-        <tbody>
-          {schedule.map((bus, index) => (
-            <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-              <td className="px-4 py-2 border-t">{bus.id}</td>
-              <td className="px-4 py-2 border-t">{bus.route}</td>
-              <td className="px-4 py-2 border-t">{bus.direction}</td>
-              <td className="px-4 py-2 border-t">{new Date(bus.arrival_time).toLocaleString()}</td>
-              <td className="px-4 py-2 border-t">{getArrivalStatus(bus.arrival_time)}</td>
-            </tr>
+    <div>
+      <Table className="border-2 border-b-4 border-gray-800 !rounded-lg p-4">
+        <TableHeader className="bg-gray-200">
+          <TableRow>
+            <TableHead>BUS ID</TableHead>
+            <TableHead>ROUTE</TableHead>
+            <TableHead>DIRECTION</TableHead>
+            <TableHead>ARRIVAL TIME</TableHead>
+            <TableHead>ETA</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {!isError && data?.map((bus, index) => (
+            <TableRow key={index}>
+              <TableCell>{bus.id}</TableCell>
+              <TableCell>{bus.route}</TableCell>
+              <TableCell>{bus.direction}</TableCell>
+              <TableCell>{new Date(bus.arrival_time).toLocaleString()}</TableCell>
+              <TableCell>{getArrivalStatus(bus.arrival_time)}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }
