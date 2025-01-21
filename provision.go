@@ -10,7 +10,10 @@ import (
 	"os"
 	"time"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/hashicorp/go-getter"
+	"github.com/hashicorp/hcl/v2/gohcl"
+	"github.com/hashicorp/hcl/v2/hclparse"
 )
 
 type ProvisionData struct {
@@ -38,6 +41,21 @@ type Provision interface {
 	Load() (ProvisionData, error)
 }
 
+type NomadConfig struct {
+	Client NomadClient `hcl:"client,block"`
+}
+
+type NomadClient struct {
+	Meta NomadMeta `hcl:"meta,block"`
+}
+
+type NomadMeta struct {
+	Province   string `hcl:"province" json:"province" validate:"required"`
+	District   string `hcl:"district" json:"district" validate:"required"`
+	City       string `hcl:"city" json:"city" validate:"required"`
+	ClientName string `hcl:"client_name" json:"client_name" validate:"required"`
+}
+
 type BackendProvisoing struct {
 }
 
@@ -46,6 +64,26 @@ func NewBackendProvisoing() Provision {
 }
 
 func (p *BackendProvisoing) Provisioning() error {
+
+	var n NomadConfig
+
+	hclP := hclparse.NewParser()
+	f, diags := hclP.ParseHCLFile(Config.NomadConfigFile)
+	if diags.HasErrors() {
+		slog.Error(WrapErr(diags, "failed to parse nomad config file").Error())
+		os.Exit(1)
+	}
+
+	gohcl.DecodeBody(f.Body, nil, &n)
+
+	v := validator.New()
+	if err := v.Struct(&n); err != nil {
+		slog.Error(WrapErr(err, "validation fail for nomad config file").Error())
+		os.Exit(1)
+	}
+
+	// TODO: post provisioning request to backend
+
 	return nil
 }
 

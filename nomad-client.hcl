@@ -3,6 +3,6 @@ client {
         province = "diy"
         district = "diy"
         city = "diy"
-        client = "pemprov_jogja"
+        client_name = "pemprov_jogja"
     }
 }
