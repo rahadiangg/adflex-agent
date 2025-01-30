@@ -7,8 +7,8 @@ export default function VideoPlayer() {
   return (
     <div className="relative w-full min-h-screen">
       <ReactPlayer
-        url={adsStore.activeUrl}
-        playing={adsStore.isPlayed}
+        url={adsStore.ads[adsStore.activeIndex]?.source}
+        playing
         loop
         controls={false}
         width="100%"
