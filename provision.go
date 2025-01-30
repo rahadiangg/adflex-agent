@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/hashicorp/go-getter"
 	"github.com/hashicorp/hcl/v2/gohcl"
 	"github.com/hashicorp/hcl/v2/hclparse"
 )
@@ -99,31 +98,21 @@ func (p *BackendProvisoing) Load() (ProvisionData, error) {
 	}
 
 	var adsVerified []Ads
+
 	// download ads content
+	g := NewGetterBuilder(NewNativeGetter())
+
 	for _, a := range prov.Ads {
 
-		// currently we only store in object storage
-		detectors := []getter.Detector{
-			&getter.S3Detector{},
-			&getter.GCSDetector{},
-		}
-
 		filename := GetFileNameFromURL(a.Source)
-
-		s, err := getter.Detect(a.Source, AdsPath, detectors)
-		if err != nil {
-			slog.Error(WrapErr(err, fmt.Sprintf("failed to detect source for %s", filename)).Error())
-			continue
-		}
 
 		// check is file exist
 		// if not exist, then download from source
 		if _, err := os.Stat(AdsPath + filename); err != nil {
 			slog.Info(fmt.Sprintf("ads file %s not exist in %s", filename, AdsPath+filename))
-			if err := getter.Get(AdsPath, s+"?checksum="+a.Checksum,
-				getter.WithDetectors(detectors),
-				getter.WithMode(getter.ClientModeAny)); err != nil {
-				slog.Error(WrapErr(err, fmt.Sprintf("failed to download file %s", filename)).Error())
+
+			if err := g.Get(a.Source, AdsPath); err != nil {
+				slog.Error(WrapErr(err, "failed to download file").Error())
 				continue
 			}
 			slog.Info(fmt.Sprintf("downloaded file %s from %s", filename, a.Source))

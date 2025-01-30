@@ -2,7 +2,13 @@ module github.com/rahadiangg/adflex-agent
 
 go 1.22.1
 
-require github.com/joho/godotenv v1.5.1
+require (
+	github.com/go-playground/validator/v10 v10.24.0
+	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/hashicorp/go-getter v1.7.8
+	github.com/hashicorp/hcl/v2 v2.23.0
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	cloud.google.com/go v0.110.0 // indirect
@@ -19,8 +25,6 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.24.0 // indirect
-	github.com/gofiber/fiber/v2 v2.52.6 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
@@ -28,10 +32,8 @@ require (
 	github.com/googleapis/enterprise-certificate-proxy v0.2.3 // indirect
 	github.com/googleapis/gax-go/v2 v2.7.1 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
-	github.com/hashicorp/go-getter v1.7.8 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
-	github.com/hashicorp/hcl/v2 v2.23.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
