@@ -5,10 +5,10 @@ export default function VideoPlayer() {
   const adsStore = useAdsStore();
 
   return (
-    <div className="relative w-full min-h-screen">
+    <div className="relative w-full min-h-screen bg-black">
       <ReactPlayer
         url={adsStore.ads[adsStore.activeIndex]?.source}
-        playing
+        playing={true}
         loop
         controls={false}
         width="100%"

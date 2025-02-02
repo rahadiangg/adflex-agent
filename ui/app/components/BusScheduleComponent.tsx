@@ -15,6 +15,7 @@ import { configs } from "../configs/Environment";
 import { ArrivalStatus } from "./ArrivalStatusComponent";
 import { useAdsStore } from "../stores/AdsStore";
 import { isShowFullscreenAds } from "../common/HandleShowFullscreenAds";
+import dayjs from "dayjs";
 
 export default function BusSchedule() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -60,7 +61,7 @@ export default function BusSchedule() {
                 <TableCell>{bus.id}</TableCell>
                 <TableCell>{bus.route}</TableCell>
                 <TableCell>{bus.direction}</TableCell>
-                <TableCell>{new Date(bus.arrival_time).toString()}</TableCell>
+                <TableCell>{dayjs(bus.arrival_time).format('YYYY-MM-DD HH:mm:ss')}</TableCell>
                 <TableCell>{ArrivalStatus(bus.arrival_time)}</TableCell>
               </TableRow>
             ))}

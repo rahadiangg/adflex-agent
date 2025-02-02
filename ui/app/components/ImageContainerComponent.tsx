@@ -8,7 +8,7 @@ export default function ImageContainer(props: IImageContainerProps) {
   const adsStore = useAdsStore();
 
   return (
-    <div className={`${props.isFullscreen ? 'min-h-screen': 'h-full'} relative w-full overflow-hidden`}>
+    <div className={`${props.isFullscreen ? 'min-h-screen': 'h-full'} relative w-full overflow-hidden bg-black`}>
       <img
         src={adsStore.ads[adsStore.activeIndex].source}
         alt="Background"
