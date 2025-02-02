@@ -2,7 +2,7 @@
 
 import React from "react";
 import BusScheduleTable from "@/app/components/BusScheduleComponent";
-import Clock from "@/app/components/Clock";
+import Clock from "@/app/components/ClockComponent";
 import { useAdsStore } from "../stores/AdsStore";
 import AdsContainer from "./AdsContainerComponent";
 

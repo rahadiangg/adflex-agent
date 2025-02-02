@@ -4,6 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useAdsStore } from "../stores/AdsStore";
 import { adsAnimationConfig } from "../common/AdsAnimationConfig";
+import VideoPlayer from "./VideoPlayerContainer";
+import ImageContainer from "./ImageContainerComponent";
 
 export default function Ads() {
   return (
@@ -15,9 +17,10 @@ export default function Ads() {
       exit="exit"
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg cursor-pointer hover:shadow-xl w-full">
+        className="bg-white p-1 rounded-lg shadow-lg cursor-pointer hover:shadow-xl w-full">
         <div className="aspect-video w-full bg-gray-200 flex items-center justify-center">
-          <span className="text-gray-600">{useAdsStore.getState().ads[useAdsStore.getState().activeIndex]?.source}</span>
+          {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.type === "video" && <VideoPlayer />}
+          {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.type === "banner" && <ImageContainer isFullscreen={false} />}
         </div>
       </div>
     </motion.div>

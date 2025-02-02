@@ -2,9 +2,10 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import VideoPlayer from "./VideoPlayer";
+import VideoPlayer from "./VideoPlayerContainer";
 import { useAdsStore } from "../stores/AdsStore";
 import { adsAnimationConfig } from "../common/AdsAnimationConfig";
+import ImageContainer from "./ImageContainerComponent";
 
 export default function AdsFullscreen() {
   return (
@@ -26,7 +27,7 @@ export default function AdsFullscreen() {
         >
           <div className="relative min-w-screen min-h-screen overflow-hidden">
             {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.type === "video" && <VideoPlayer />}
-            {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.source}
+            {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.type === "banner" && <ImageContainer isFullscreen={true} />}
           </div>
         </motion.div>
       </motion.div>
