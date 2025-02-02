@@ -14,7 +14,7 @@ export interface IAdsStore {
 }
 
 export interface AdsSchedule {
-  type: string
+  type: string|boolean
   source: string
   duration: number
 }

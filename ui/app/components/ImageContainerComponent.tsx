@@ -12,13 +12,13 @@ export default function ImageContainer(props: IImageContainerProps) {
       <img
         src={adsStore.ads[adsStore.activeIndex].source}
         alt="Background"
-        className="absolute inset-0 w-full h-full object-cover blur-[8px]"
+        className="absolute inset-0 w-full h-full object-cover blur-[10px]"
       />
       <div className={`${props.isFullscreen ? 'min-h-screen': 'h-full'} relative w-full flex items-center justify-center`}>
         <img
           src={adsStore.ads[adsStore.activeIndex].source}
           alt="Main content"
-          className={`${props.isFullscreen ? 'object-cover' : 'object-contain'} w-full h-full`}
+          className={`${props.isFullscreen ? 'object-cover' : 'object-contain'}`}
         />
       </div>
     </div>

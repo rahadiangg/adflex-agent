@@ -5,15 +5,15 @@ const extensions = {
   video: ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'],
 }
 
-export function checkValidMedia(url: string): string {
+export function checkValidMedia(url: string): string|boolean {
   const validUrl = checkValidUrl(url);
-  if (!validUrl) return 'invalid';
+  if (!validUrl) return false;
 
   const extension = url.split('.').pop()?.toLocaleLowerCase();
-  if (!extension) return 'invalid';
+  if (!extension) return false;
 
   if (extensions.image.includes(extension)) return 'image';
   if (extensions.video.includes(extension)) return 'video';
 
-  return 'invalid';
+  return false;
 }

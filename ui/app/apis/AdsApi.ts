@@ -15,7 +15,7 @@ export const getAdsSchedule = async () => {
       return {
         ...ad,
         source,
-        type: checkValidMedia(source),
+        type: checkValidMedia(source) || ad.type,
         duration: Number(ad.duration)
       }
     })
