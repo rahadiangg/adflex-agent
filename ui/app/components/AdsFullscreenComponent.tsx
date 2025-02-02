@@ -27,7 +27,7 @@ export default function AdsFullscreen() {
         >
           <div className="relative min-w-screen min-h-screen overflow-hidden">
             {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.type === "video" && <VideoPlayer />}
-            {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.type === "banner" && <ImageContainer isFullscreen={true} />}
+            {useAdsStore.getState()?.ads[useAdsStore.getState().activeIndex]?.type === "image" && <ImageContainer isFullscreen={true} />}
           </div>
         </motion.div>
       </motion.div>
